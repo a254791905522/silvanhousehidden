@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silvan House Hidden Objects — Hidden Object Mystery Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a120e;
+            background-image:
+                radial-gradient(ellipse 120% 70% at 50% -10%, rgba(45, 95, 72, 0.45), transparent 50%),
+                radial-gradient(ellipse 80% 50% at 0% 50%, rgba(201, 162, 39, 0.06), transparent 45%),
+                radial-gradient(ellipse 70% 60% at 100% 80%, rgba(30, 58, 48, 0.5), transparent 50%),
+                linear-gradient(180deg, #050a08 0%, #0f1c16 35%, #0a120e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+            color: #d4ddd8;
+        }
+
+        .mist {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 100% 40% at 50% 100%, rgba(180, 190, 185, 0.04) 0%, transparent 55%);
+        }
+
+        .vine-frame {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(90deg, transparent 48%, rgba(201, 162, 39, 0.4) 49%, rgba(201, 162, 39, 0.4) 51%, transparent 52%),
+                linear-gradient(0deg, transparent 48%, rgba(201, 162, 39, 0.25) 49%, rgba(201, 162, 39, 0.25) 51%, transparent 52%);
+            background-size: 120px 120px;
+        }
+
+        .container {
+            background: linear-gradient(165deg, rgba(22, 38, 30, 0.96) 0%, rgba(12, 22, 18, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 8px;
+            border: 1px solid rgba(201, 162, 39, 0.28);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+                0 32px 64px rgba(0, 0, 0, 0.55),
+                0 0 100px rgba(45, 95, 72, 0.15);
+            max-width: 640px;
+            width: 100%;
+            padding: 48px 42px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 24px;
+            right: 24px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.7), rgba(212, 180, 90, 0.5), rgba(201, 162, 39, 0.7), transparent);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .game-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            line-height: 1;
+            background: linear-gradient(145deg, rgba(45, 95, 72, 0.35) 0%, rgba(20, 40, 32, 0.6) 100%);
+            border: 1px solid rgba(201, 162, 39, 0.4);
+            border-radius: 4px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 2.35rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+            line-height: 1.1;
+            color: #f2f5f3;
+        }
+
+        h1 .gold {
+            color: #e8d18a;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #8aa896;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 26px;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .badge {
+            background: rgba(45, 95, 72, 0.25);
+            border: 1px solid rgba(138, 168, 150, 0.35);
+            color: #b8cfc0;
+            padding: 7px 14px;
+            border-radius: 2px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .description {
+            text-align: left;
+            color: #a8b5ae;
+            line-height: 1.85;
+            font-size: 0.98rem;
+            margin-bottom: 28px;
+        }
+
+        .description strong {
+            color: #e8ebe9;
+            font-weight: 600;
+        }
+
+        .scene-box {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 4px;
+            border-left: 3px solid rgba(201, 162, 39, 0.55);
+            padding: 22px 24px;
+            margin-bottom: 28px;
+        }
+
+        .scene-box h3 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #e8d18a;
+            margin-bottom: 14px;
+            letter-spacing: 0.03em;
+        }
+
+        .scene-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .scene-box li {
+            color: #a8b5ae;
+            padding: 6px 0 6px 22px;
+            position: relative;
+            font-size: 0.94rem;
+            line-height: 1.55;
+        }
+
+        .scene-box li::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            color: #5d8a6e;
+            font-size: 0.55rem;
+            top: 0.85em;
+        }
+
+        .features {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .features h3 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #b8cfc0;
+            margin-bottom: 16px;
+            letter-spacing: 0.02em;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            color: #a8b5ae;
+            padding: 8px 0 8px 26px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.62;
+        }
+
+        .features li::before {
+            content: "·";
+            position: absolute;
+            left: 6px;
+            color: #c9a227;
+            font-weight: 700;
+            font-size: 1.4rem;
+            line-height: 1;
+            top: 4px;
+        }
+
+        .app-store-button {
+            display: inline-block;
+            background: linear-gradient(145deg, #2d5f48 0%, #1a3d2e 100%);
+            color: #f2f5f3;
+            padding: 16px 40px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            border: 1px solid rgba(201, 162, 39, 0.45);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-store-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px rgba(201, 162, 39, 0.12);
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(138, 168, 150, 0.18);
+            font-size: 0.84rem;
+            color: #6d7f76;
+            font-weight: 500;
+        }
+
+        .footer a {
+            color: #a8c4b0;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(168, 196, 176, 0.35);
+        }
+
+        .footer a:hover {
+            color: #d4ddd8;
+            border-bottom-color: rgba(212, 221, 216, 0.6);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.85rem; }
+            .container { padding: 36px 22px; }
+            .game-icon { width: 88px; height: 88px; font-size: 42px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mist" aria-hidden="true"></div>
+    <div class="vine-frame" aria-hidden="true"></div>
+
+    <div class="container">
+        <div class="game-icon" role="img" aria-label="Magnifying glass">🔍</div>
+        <h1>Silvan House <span class="gold">Hidden Objects</span></h1>
+        <p class="subtitle">Hidden Object Mystery Game</p>
+
+        <div class="badges">
+            <span class="badge">Free</span>
+            <span class="badge">Puzzle</span>
+            <span class="badge">iPhone &amp; iPad</span>
+            <span class="badge">4+</span>
+        </div>
+
+        <div class="description">
+            <p>Explore mysterious worlds and uncover secrets in <strong>beautifully crafted scenes</strong>. Welcome to <strong>Silvan House Hidden Objects</strong>—a journey into mystery, detail, and discovery. Every location is rich with atmosphere: from <strong>enchanted forests</strong> to <strong>shadowy mansions</strong>, each invites you to look closer and sharpen your observation.</p>
+            <p style="margin-top: 14px;">Cleverly concealed objects sit within stunning environments built to reward focus and patience. Levels grow in challenge while staying engaging—whether you prefer a <strong>relaxed pace</strong> or <strong>time-based trials</strong> that test speed and accuracy. Calm visuals and satisfying finds come together for hours of exploration.</p>
+        </div>
+
+        <div class="scene-box">
+            <h3>What awaits you</h3>
+            <ul>
+                <li>Hand-crafted scenes packed with hidden items to discover.</li>
+                <li>Escalating difficulty that keeps each round fresh.</li>
+                <li>Optional timed challenges for players who like a sharper edge.</li>
+                <li>A mood that blends relaxation with quiet mystery.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h3>Why play</h3>
+            <ul>
+                <li><strong>Observation-first gameplay</strong>—find every object before time slips away.</li>
+                <li><strong>Varied settings</strong>—forests, manors, and more, each with its own secrets.</li>
+                <li><strong>Game Center</strong>—leaderboards for those who enjoy friendly competition.</li>
+                <li><strong>Built for touch</strong>—comfortable on iPhone and iPad (iOS 15+).</li>
+                <li>Ideal for fans of <strong>hidden object</strong> puzzles and calm, focused play.</li>
+            </ul>
+        </div>
+
+        <a href="https://apps.apple.com/us/app/silvan-house-hidden-objects/id1036592629?uo=4" class="app-store-button" target="_blank" rel="noopener noreferrer">
+            Download on the App Store
+        </a>
+
+        <div class="footer">
+            <a href="privacy.html">Privacy Policy</a> · Silvan House Hidden Objects
+        </div>
+    </div>
+</body>
+
+</html>
